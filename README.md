@@ -3,7 +3,7 @@ Stock and Securities Data Modeling
 
 The following is a passion project of two friends who share a mutual interest in fintech. We focus on the applications of various statistical and deep learning models and how well they work on predicting the price of stocks.
 
-The project is defined into 3 main parts: 
+<br>The project is defined into 3 main parts:</br> 
 1) The notebooks, some rough work and notes done during the planning and prototyping stages of the project.
 2) The models, this entails the code to generate the models, not the actual models themselves.
 3) The visualization and analysis of the models and their performances.
