@@ -3,21 +3,18 @@ Stock and Securities Data Modeling
 
 The following is a passion project of two friends who share a mutual interest in fintech. We focus on the applications of various statistical and deep learning models and how well they work on predicting the price of stocks.
 
-The project is defined into 3 main parts: 
+**The project is defined into 3 main parts:**
 1) The notebooks, some rough work and notes done during the planning and prototyping stages of the project.
 2) The models, this entails the code to generate the models, not the actual models themselves.
 3) The visualization and analysis of the models and their performances.
 
 
-The data used is courtesy of: 
+The data used is courtesy of: https://www.kaggle.com/borismarjanovic/price-volume-data-for-all-us-stocks-etfs
 
 
 Project Organization
 ------------
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
@@ -31,7 +28,6 @@ Project Organization
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
@@ -63,4 +59,13 @@ Project Organization
 --------
 
 
+Purpose + What we Learned
+------------
+**Brian:** During my first co-op as an applied machine learning intern, I learned that none of the work of ML is in the making of the model, all of it lies in the analysis and application. I had studied all of the theory and the math behind the models but always fell victim to analysis paralysis when handed a solo project. The purpose of this project is not to show off technicals, but to work on analysis, baselining and proof of concept. 
+
+**Kevin:**
+
+
+How to use:
+----------- 
 
