@@ -88,13 +88,13 @@ How to use
 This is really the bread and butter of this project, you do not need to do anything fancy to look at our analysis. Everything is located in the visualization folder
 
 
-Sample Test Code:
+Sample Test Code
 -----------------
 
 
-Sample Test Code Results:
+Sample Test Code Results
 -------------------------
 
 
-Credentials:
-------------
+Credentials
+-----------
