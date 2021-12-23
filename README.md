@@ -66,7 +66,7 @@ Purpose + What we Learned
 **Kevin:** The most significant aspect of a data forecasting project lies in the creative works and analyses that can be performed. Implementing ML models to forecast stock data was not the biggest concern, but rather, it was a question of what we can do with that information. The purpose of this project is to implement and test several time-series forecasting models to predict future stock prices of major corporations, and to assess the performance of such predictions. 
 
 
-Requirements:
+Requirements
 -------------
 - Download [git](https://git-scm.com/downloads) or [GitHub Desktop](https://desktop.github.com/)
 - Install [Python3](https://www.python.org/downloads/) 
@@ -76,7 +76,7 @@ Requirements:
 - Install Pandas and Matplotlib using pip install
 
 
-How to use:
+How to use
 ----------- 
 **If you want to backtest our models:**
 1. Fork this repository and clone it using GitHub Desktop, or run ```git clone https://github.com/thekioskman/Finacial-Data-Modeling.git``` using Terminal/CMD, or download as ZIP. 
@@ -84,6 +84,7 @@ How to use:
 3. Download data from the Kaggle website
 
 **If you want to see the analysis:**
+
 This is really the bread and butter of this project, you do not need to do anything fancy to look at our analysis. Everything is located in the visualization folder
 
 
