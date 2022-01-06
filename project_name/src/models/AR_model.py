@@ -26,7 +26,7 @@ for i in range(len(test)):
     close_val = test.iloc[i]["Close"]
     train = train.append({"Close": close_val}, ignore_index=True)
 
-# Extract data from after June 22nd, 2021
+# Extract forecasted data from after June 22nd, 2021
 df = df[df["Date"] > datetime.datetime(2021, 6, 22)]
 np_lag_1_pred = np.array(lag_1_pred)
 df["Forecast"] = np_lag_1_pred.tolist()
@@ -51,13 +51,6 @@ for i in range(len(df)):
         else:
             buy[df["Date"].iloc[i]].append(df["Forecast"].iloc[i] * -1)
     
-    # elif (df["Forecast"].iloc[i - 1] > df["MA50"].iloc[i - 1]) and (df["Forecast"].iloc[i + 1] > df["MA50"].iloc[i + 1]):
-    #     Buy.append(i)
-    #     if df["Date"].iloc[i] not in buy:
-    #         buy[df["Date"].iloc[i]] = [df["Forecast"].iloc[i] * -1]
-    #     else:
-    #         buy[df["Date"].iloc[i]].append(df["Forecast"].iloc[i] * -1)
-    
     # If the shorter MA is lower than the longer MA; and the opposite the previous day - sell
     elif (df["MA10"].iloc[i] < df["MA20"].iloc[i]) and (df["MA10"].iloc[i - 1] > df["MA20"].iloc[i - 1]):
         Sell.append(i)
@@ -71,14 +64,27 @@ profits_data = {}
 dates = list(buy.keys()) + list(sell.keys())
 dates.sort()
 
+capital = 500
+stocks = 0
+
 # Calculate profit for each day we buy/sell, and store
 for date in dates:
     if date in buy.keys():
-        profit += sum(buy[date])
+        # Buy a single stock if we have enough capital
+        if sum(buy[date]) < capital:
+            profit += sum(buy[date])
+            capital += sum(buy[date])
+            start_sell = True
+            stocks += 1
 
     if date in sell.keys():
-        profit += sum(sell[date])
+        # Sell a single stock if we have at least one stock
+        if stocks > 0:
+            profit += sum(sell[date])
+            capital += sum(sell[date])
+            stocks -= 1
     
+    # Store the profit data after each transaction
     profits_data[date] = profit
 
 # Find the maximum profit and day when maximum profit is attained
@@ -88,6 +94,7 @@ for key in profits_data.keys():
         the_date = key
 
 print("The Max Profit is: $%.2f on %s" % (max_profit, the_date))
+print("Cash capital at 2021-12-22 is: $%.2f with %d stocks holding" % (capital, stocks))
 
 # Graph 
 plt.figure(figsize=(60,25))

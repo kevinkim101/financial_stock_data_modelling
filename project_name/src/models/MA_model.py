@@ -1,38 +1,38 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure
-from pandas.plotting import lag_plot
+from statsmodels.tsa.stattools import adfuller
+import numpy as np
+from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.tsa.arima.model import ARIMA
-from statsmodels.tsa.ar_model import AutoReg
-from sklearn.metrics import mean_squared_error
 import datetime
 
-df = pd.read_csv("project_name/data/processed/appl_stock_values.csv")
-
-#split the data
+# Clean the data
+df = pd.read_csv("project_name/data/processed/appl_stock_values.csv", index_col = 0, header=0)
 df["Date"] = pd.to_datetime(df["Date"])
-df = df.drop(columns=["Open","Volume", "High", "Low", "Unnamed: 0"])
-test = df[df["Date"] > datetime.datetime(2021, 6, 22)]
-train = df[df["Date"] <= datetime.datetime(2021, 6, 22)]
-lag_1_pred = []
-date = []
+del df["Open"]
+del df["High"]
+del df["Low"]
+del df["Volume"]
+df["Date Copy"] = df["Date"]
+df = df.set_index("Date")
 
-test = test.reset_index(drop=True)
+# Check if the given data is stationary
+ADF_result = adfuller(df["Close"])
 
-for i in range(len(test)):
-    model = ARIMA(train["Close"], order = (1,1,1))
-    model_fit = model.fit()
-    lag_1_pred.append(model_fit.forecast().iloc[0])
-    train = train.append({"Close": test.iloc[i]["Close"], "Date":test.iloc[i]["Date"]}, ignore_index=True)
+# Make the data stationary by applying first order differencing
+stock_close_diff = np.diff(df["Close"], n = 1)
+ADF_result = adfuller(stock_close_diff)
 
-model = ARIMA(train["Close"], order = (1,0,1))
-model_fit = model.fit()
+# Implement the moving average model
 
-# Extract data from after June 22nd, 2021
-df = df[df["Date"] > datetime.datetime(2021, 6, 22)]
-np_lag_1_pred = np.array(lag_1_pred)
-df["Forecast"] = np_lag_1_pred.tolist()
+# MA_model uses the ARIMA function but set the parameters p and d to 0. Set the q (lag) value to 10 as identified in ACF plot.
+MA_model = ARIMA(endog = df["Close"], order = (0,0,10)) 
+results = MA_model.fit()
+
+# Perform forecasting
+df["Forecast"] = results.predict(start = "2021-06-22", end = "2021-12-22")
+
+# Rolling average analysis with MA20 and MA50
 df["MA20"] = df["Forecast"].rolling(20).mean()
 df["MA10"] = df["Forecast"].rolling(10).mean()
 df = df.dropna()
@@ -45,48 +45,47 @@ Sell = []
 
 # Follow the Golden Cross Over Rule to determine buy and sell signals
 for i in range(len(df)):
-
     # If the shorter MA is higher than the longer MA; and the opposite the previous day - buy
     if (df["MA10"].iloc[i] > df["MA20"].iloc[i]) and (df["MA10"].iloc[i -1] < df["MA20"].iloc[i]):
         Buy.append(i)
-        if df["Date"].iloc[i] not in buy:
-            buy[df["Date"].iloc[i]] = [df["Forecast"].iloc[i] * -1]
+        if df["Date Copy"].iloc[i] not in buy:
+            buy[df["Date Copy"].iloc[i]] = [df["Forecast"].iloc[i] * -1]
         else:
-            buy[df["Date"].iloc[i]].append(df["Forecast"].iloc[i] * -1)
-    
+            buy[df["Date Copy"].iloc[i]].append(df["Forecast"].iloc[i] * -1)
     # If the shorter MA is lower than the longer MA; and the opposite the previous day - sell
     elif (df["MA10"].iloc[i] < df["MA20"].iloc[i]) and (df["MA10"].iloc[i - 1] > df["MA20"].iloc[i - 1]):
         Sell.append(i)
-        if df["Date"].iloc[i] not in sell:
-            sell[df["Date"].iloc[i]] = [df["Forecast"].iloc[i]]
+        if df["Date Copy"].iloc[i] not in sell:
+            sell[df["Date Copy"].iloc[i]] = [df["Forecast"].iloc[i]]
         else:
-            sell[df["Date"].iloc[i]].append(df["Forecast"].iloc[i])
+            sell[df["Date Copy"].iloc[i]].append(df["Forecast"].iloc[i])
 
-print(buy)
-print(sell)
-
+# Initialize Variables
 profit = 0
 profits_data = {}
 dates = list(buy.keys()) + list(sell.keys())
 dates.sort()
 
+# Starting capital of $500
 capital = 500
 stocks = 0
 
 # Calculate profit for each day we buy/sell, and store
 for date in dates:
     if date in buy.keys():
+        # We only buy 1 stock if we have enough money to buy 1 stock
         if sum(buy[date]) < capital:
             profit += sum(buy[date])
             capital += sum(buy[date])
-            start_sell = True
             stocks += 1
 
     if date in sell.keys():
+        # We sell if we have at least 1 stock
         if stocks > 0:
             profit += sum(sell[date])
             capital += sum(sell[date])
             stocks -= 1
+
     profits_data[date] = profit
 
 # Find the maximum profit and day when maximum profit is attained
@@ -108,5 +107,3 @@ plt.scatter(df.iloc[Buy].index, df.iloc[Buy]["Forecast"], marker = "^", color = 
 plt.scatter(df.iloc[Sell].index, df.iloc[Sell]["Forecast"], marker = "v", color = "r", s = 200)
 plt.legend()
 plt.show()
-
-
