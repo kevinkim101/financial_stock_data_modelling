@@ -97,6 +97,8 @@ for key in profits_data.keys():
 
 print("The Max Profit is: $%.2f on %s" % (max_profit, the_date))
 print("Cash capital at 2021-12-22 is: $%.2f with %d stocks holding" % (capital, stocks))
+equity = capital + stocks * df["Forecast"].iloc[-1]
+print("Equity: $%.2f" % equity)
 
 # Graph 
 plt.figure(figsize=(60,25))
