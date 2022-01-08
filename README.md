@@ -99,6 +99,7 @@ The price of a stock at time t depends on its price at t-1 and t-2. Notice that 
 ```math
 Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2}... + \phi_pY_{t-p} + A
 ```
+<img src="https://render.githubusercontent.com/render/math?math=Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2}... + \phi_pY_{t-p} + A">
 
 You can clearly see that there are n independent variables, and a single dependent (or predicated) value. Our goal is to use the price values at previous time positions to predict the value at the next time interval.
 
