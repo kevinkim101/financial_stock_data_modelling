@@ -96,9 +96,9 @@ Autoregression
 Autoregression is just a fancy term for a linear regression which uses the same variable at different time positions as the independent and dependent variable. An example would be as follows. 
 
 The price of a stock at time t depends on its price at t-1 and t-2. Notice that it's the same variable (stock price) at different times acting as both the dependent and independent variable.
-
+```math
 Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2}... + \phi_pY_{t-p} + A
-
+```
 
 You can clearly see that there are n independent variables, and a single dependent (or predicated) value. Our goal is to use the price values at previous time positions to predict the value at the next time interval.
 
