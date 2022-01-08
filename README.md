@@ -85,7 +85,7 @@ How to use
 
 **If you want to see the analysis:**
 
-This is really the bread and butter of this project, you do not need to do anything fancy to look at our analysis. Everything is located in the visualization folder
+This is really the bread and butter of this project, you do not need to do anything fancy to look at our analysis. Everything is located in the visualization folder.
 
 
 Models

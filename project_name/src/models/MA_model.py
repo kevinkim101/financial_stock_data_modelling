@@ -30,7 +30,7 @@ MA_model = ARIMA(endog = df["Close"], order = (0,0,10))
 results = MA_model.fit()
 
 # Perform forecasting
-df["Forecast"] = results.predict(start = "2021-06-22", end = "2021-12-22")
+df["Forecast"] = results.predict(start = "2021-01-04", end = "2021-12-22")
 
 # Rolling average analysis with MA20 and MA50
 df["MA20"] = df["Forecast"].rolling(20).mean()
@@ -61,13 +61,11 @@ for i in range(len(df)):
             sell[df["Date Copy"].iloc[i]].append(df["Forecast"].iloc[i])
 
 # Initialize Variables
-profit = 0
-profits_data = {}
 dates = list(buy.keys()) + list(sell.keys())
 dates.sort()
 
-# Starting capital of $500
-capital = 500
+# Starting capital of $2000
+capital = 2000
 stocks = 0
 
 # Calculate profit for each day we buy/sell, and store
@@ -75,27 +73,18 @@ for date in dates:
     if date in buy.keys():
         # We only buy 1 stock if we have enough money to buy 1 stock
         if sum(buy[date]) < capital:
-            profit += sum(buy[date])
             capital += sum(buy[date])
             stocks += 1
 
     if date in sell.keys():
         # We sell if we have at least 1 stock
         if stocks > 0:
-            profit += sum(sell[date])
             capital += sum(sell[date])
             stocks -= 1
 
-    profits_data[date] = profit
-
-# Find the maximum profit and day when maximum profit is attained
-max_profit = max(profits_data.values())
-for key in profits_data.keys():
-    if profits_data[key] == max_profit:
-        the_date = key
-
-print("The Max Profit is: $%.2f on %s" % (max_profit, the_date))
 print("Cash capital at 2021-12-22 is: $%.2f with %d stocks holding" % (capital, stocks))
+equity = capital + stocks * df["Forecast"].iloc[-1]
+print("Equity: $%.2f" % equity)
 
 # Graph 
 plt.figure(figsize=(60,25))
