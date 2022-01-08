@@ -110,8 +110,7 @@ ARIMA
 ---
 ARIMA stands for Autoregressive Integrated Moving Average which ultimately integrates the AR and MA models to identify dependencies of variables. Overall, it can be seen as a regression model that incorporates both lag from previous data points (i.e. t-1, t-2) and from error. The ARIMA model has three parameters: p, d, and q. The p value is obtained from the lag related to the AR component, and q is the error lag from the MA component. d is a differencing parameter that produces stationary data points necessary for identifying such lag values parameters.
 
-Rolling Average Buy & Sell Signals
----
+# Rolling Average Buy & Sell Signals
 This trading strategy incorporates the Golden Cross Rule which ultimately selects two Simple Moving Averages (MA) or Rolling Averages (RA) of different time frames and identifies bullish or bearish trends. In our case, we selected a 10-day RA and a 20-day RA. If the 10-day RA crosses above the 20-day RA, it indicates an upward trend - thus a buy singla. If the 10-day RA crosses below the 20-day RA, it indicates a downward trend - thus a sell signal. Then, in order to find the efficiency/accuracy of each model, we identified buy/sell signals of AAPL stocks based on the forecasted data from each model.
 
 AR [insert buy/sell signal graph]
