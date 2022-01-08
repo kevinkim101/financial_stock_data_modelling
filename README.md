@@ -88,11 +88,11 @@ How to use
 This is really the bread and butter of this project, you do not need to do anything fancy to look at our analysis. Everything is located in the visualization folder.
 
 
-Models
----
+# Models
 The models that tend to perform best in time series forecasting, especially for financial data, are linear models. Financial data is noisy and often filled with dependent data, thus complex models can easily overfit to that noise and perform poorly in practice. 
 
-# Autoregression
+Autoregression
+---
 Autoregression is just a fancy term for a linear regression which uses the same variable at different time positions as the independent and dependent variable. An example would be as follows. 
 
 The price of a stock at time t depends on its price at t-1 and t-2. Notice that it's the same variable (stock price) at different times acting as both the dependent and independent variable.
@@ -102,13 +102,16 @@ Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2}... + \phi_pY_{t-p} + A
 
 You can clearly see that there are n independent variables, and a single dependent (or predicated) value. Our goal is to use the price values at previous time positions to predict the value at the next time interval.
 
-# Moving Average
+Moving Average
+---
 Moving Average is a simple method that takes the mean value of a range of numbers in a dynamic manner. Given mass data such as stocks that are spread over a long window of time, the moving average takes a specific smaller time frame and calculates the average over such a time period. This is a useful tool used to identify long term trends in data which can ultimately be used to forecast data. As explained in the next section for ARIMA, the Moving Average term also represents the observational error and error lag. A critical application of the Moving Average model was the Simple Moving Average method where a time frame of 10 and 20 days were selected to apply the Golden Cross Rule - which identifies potential buy and sell signals of stocks.
 
-# ARIMA
+ARIMA
+---
 ARIMA stands for Autoregressive Integrated Moving Average which ultimately integrates the AR and MA models to identify dependencies of variables. Overall, it can be seen as a regression model that incorporates both lag from previous data points (i.e. t-1, t-2) and from error. The ARIMA model has three parameters: p, d, and q. The p value is obtained from the lag related to the AR component, and q is the error lag from the MA component. d is a differencing parameter that produces stationary data points necessary for identifying such lag values parameters.
 
-# Rolling Average Buy & Sell Signals
+Rolling Average Buy & Sell Signals
+---
 This trading strategy incorporates the Golden Cross Rule which ultimately selects two Simple Moving Averages (MA) or Rolling Averages (RA) of different time frames and identifies bullish or bearish trends. In our case, we selected a 10-day RA and a 20-day RA. If the 10-day RA crosses above the 20-day RA, it indicates an upward trend - thus a buy singla. If the 10-day RA crosses below the 20-day RA, it indicates a downward trend - thus a sell signal. Then, in order to find the efficiency/accuracy of each model, we identified buy/sell signals of AAPL stocks based on the forecasted data from each model.
 
 AR [insert buy/sell signal graph]
@@ -125,8 +128,8 @@ ARIMA → $2286.69 ($729.84 with 9 stocks holding)
 
 Evidently, AR and ARIMA produced the highest equity and are very similar in terms of the equity value calculated. Interestingly, this means that the MA terms are almost negligible. Out of curiosity, we tested stock data from different corporations to see if this was the case (see AR_vs_ARIMA_test.ipynb). As seen in the notebook, the values obtained from running the AR and ARIMA model are quite similar. This shows evidence that models involving linear regression are the most significant for trading.
 
-Tradings Strategies with Autoregression
----
+# Tradings Strategies with Autoregression
+
 So after conducting various tests on our linear models, namely between AR and ARIMA. ARIMA of course just being a buffed version of Autoregression. Of Course all the models do is forecast the future prices. This ability alone is useless unless you are able to build a profitable trading strategy around it. 
 
 You may say, well from the looks of the modelled graph, and the error values they seem to predict price 100% perfectly. Why aren't people using these strategies to make millions? Also it can't be that hard to create a trading strategy if you can “SEE INTO THE FUTURE”. 
@@ -144,14 +147,16 @@ From this wacky graph you can see that between the first forecasted value, and t
 Therefore, we deduced that only the prediction that has weighting is the immediate forecast (the first prediction). Of course this means we can only see one day ahead into the future, and must build our trading strategies with that in mind. 
  
 
-# Why Autoregression
+Why Autoregression
+---
 We decided that AR (Autoregression) was the better choice for our trading purposes as it provides similar results to ARIMA but trains in exponentially faster time. Moreover, as depicted in the PACF plots only the only independent variable in the price at time lag 1. Or in other words, the only value that affects our predicted price for tomorrow, is today's price. As our linear function is simple, ARIMA is a little overkill for forecasting purposes in this case.
 
 
 [Insert images of the random test results]
 
 
-# Slope Trend Strategy
+Slope Trend Strategy
+---
 This is a little strategy that I made up, just for demonstration purposes. This strategy is not backtested and would likely perform fairly poorly in practice. Broadly this strategy could be classified under mean reversion as it sells when the price is up, and buys when the price is down. 
 
 The strategy uses a time window of the three slopes of t-2 to t-1 and t-1 to t and t to t+1 
@@ -184,6 +189,7 @@ This strategy incorporates a dynamic Moving Average method in which we use the a
 
 
 Simple Predict Next Price Strategy
+---
 The final AR based strategy is the simple price predictions strategy. The motivation is as follows, if the predicted price tomorrow is higher than today's price, then we should buy today and sell tomorrow, on the other hand if the predicted price is lower than today's price, then we should sell today, and buy tomorrow. Although this general concept makes sense, there are a couple kinks in the strategy, after all.. It is a prototype and should be treated as a fun experiment.
 
 
