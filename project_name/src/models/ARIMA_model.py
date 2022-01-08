@@ -13,8 +13,8 @@ df = pd.read_csv("project_name/data/processed/appl_stock_values.csv")
 #split the data
 df["Date"] = pd.to_datetime(df["Date"])
 df = df.drop(columns=["Open","Volume", "High", "Low", "Unnamed: 0"])
-test = df[df["Date"] > datetime.datetime(2021, 6, 22)]
-train = df[df["Date"] <= datetime.datetime(2021, 6, 22)]
+test = df[df["Date"] > datetime.datetime(2021, 1, 1)]
+train = df[df["Date"] <= datetime.datetime(2021, 1, 1)]
 lag_1_pred = []
 date = []
 
@@ -29,8 +29,8 @@ for i in range(len(test)):
 model = ARIMA(train["Close"], order = (1,0,1))
 model_fit = model.fit()
 
-# Extract data from after June 22nd, 2021
-df = df[df["Date"] > datetime.datetime(2021, 6, 22)]
+# Extract data from after January 1st, 2021
+df = df[df["Date"] > datetime.datetime(2021, 1, 1)]
 np_lag_1_pred = np.array(lag_1_pred)
 df["Forecast"] = np_lag_1_pred.tolist()
 df["MA20"] = df["Forecast"].rolling(20).mean()
@@ -62,40 +62,25 @@ for i in range(len(df)):
         else:
             sell[df["Date"].iloc[i]].append(df["Forecast"].iloc[i])
 
-print(buy)
-print(sell)
-
-profit = 0
-profits_data = {}
 dates = list(buy.keys()) + list(sell.keys())
 dates.sort()
 
-capital = 500
+capital = 2000
 stocks = 0
 
 # Calculate profit for each day we buy/sell, and store
 for date in dates:
     if date in buy.keys():
         if sum(buy[date]) < capital:
-            profit += sum(buy[date])
             capital += sum(buy[date])
             start_sell = True
             stocks += 1
 
     if date in sell.keys():
         if stocks > 0:
-            profit += sum(sell[date])
             capital += sum(sell[date])
             stocks -= 1
-    profits_data[date] = profit
 
-# Find the maximum profit and day when maximum profit is attained
-max_profit = max(profits_data.values())
-for key in profits_data.keys():
-    if profits_data[key] == max_profit:
-        the_date = key
-
-print("The Max Profit is: $%.2f on %s" % (max_profit, the_date))
 print("Cash capital at 2021-12-22 is: $%.2f with %d stocks holding" % (capital, stocks))
 equity = capital + stocks * df["Forecast"].iloc[-1]
 print("Equity: $%.2f" % equity)
@@ -110,5 +95,3 @@ plt.scatter(df.iloc[Buy].index, df.iloc[Buy]["Forecast"], marker = "^", color = 
 plt.scatter(df.iloc[Sell].index, df.iloc[Sell]["Forecast"], marker = "v", color = "r", s = 200)
 plt.legend()
 plt.show()
-
-
