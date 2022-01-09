@@ -93,7 +93,7 @@ The models that tend to perform best in time series forecasting, especially for 
 
 Autoregression
 ---
-Autoregression is just a fancy term for a linear regression which uses the same variable at different time positions as the independent and dependent variable. An example would be as follows. 
+Autoregression is just a fancy term for a linear regression which uses the same variable at different time positions as the independent and dependent variable. An example would be as follows: 
 
 The price of a stock at time t depends on its price at t-1 and t-2. Notice that it's the same variable (stock price) at different times acting as both the dependent and independent variable.
 ```math
@@ -131,13 +131,11 @@ Evidently, AR and ARIMA produced the highest equity and are very similar in term
 
 # Tradings Strategies with Autoregression
 
-So after conducting various tests on our linear models, namely between AR and ARIMA. ARIMA of course just being a buffed version of Autoregression. Of Course all the models do is forecast the future prices. This ability alone is useless unless you are able to build a profitable trading strategy around it. 
+So after conducting various tests on our linear models, namely between AR and ARIMA, ARIMA of course just being a buffed version of Autoregression, we came to the conclusion of using AR as our main model. All the models do is forecast the future prices. This ability alone is useless unless you are able to build a profitable trading strategy around it. 
 
-You may say, well from the looks of the modelled graph, and the error values they seem to predict price 100% perfectly. Why aren't people using these strategies to make millions? Also it can't be that hard to create a trading strategy if you can “SEE INTO THE FUTURE”. 
+You may be a bit confused because from the looks of the modelled graph and the error values they seem to predict price 100% perfectly!? Why aren't people using these strategies to make millions? Also it can't be that hard to create a trading strategy if you can “SEE INTO THE FUTURE”. 
 
-Well if it really were that simple I would not be sitting here and writing this. (and I certainly would not have gotten my Citadel application rejected 5 times). The main issue with regression models is their limited look ahead period. We are working with daily data (since we are poor), and you can see from the PACF plots that really only the previous day price has some bearing on our predicted price. 
-
-This also means that our AR model can only reasonably predict one day into the future. 
+Well if it really were that simple I would not be sitting here and writing this. (and I certainly would not have gotten my Citadel application rejected 5 times). The main issue with regression models is their limited look ahead period. We are working with daily data (since we are poor), and you can see from the PACF plots that our models rely only on the previous day's price. This also means that our AR model can only reasonably predict one day into the future. 
 
 
 ![wacky line graph](project_name/reports/figures/wacky_line_graph.png?raw=true "1 day + 1 + n day prediction line graph")
@@ -152,12 +150,12 @@ In the case that this first graph was too confusing, I produced a second compari
 
 ![6 day predict graph](project_name/reports/figures/six_day_forcast.png?raw=true "6 day forcast graph")
 
-Therefore, we deduced that only the prediction that has weighting is the immediate forecast (the first prediction). Of course this means we can only see one day ahead into the future, and must build our trading strategies with that in mind. 
+Therefore, we deduced that the only  prediction that has weighting is the immediate forecast (the first prediction). Of course this means we can only see one day ahead into the future, and must build our trading strategies with that in mind. 
  
 
 Why Autoregression
 ---
-We decided that AR (Autoregression) was the better choice for our trading purposes as it provides similar results to ARIMA but trains in exponentially faster time. Moreover, as depicted in the PACF plots only the only independent variable in the price at time lag 1. Or in other words, the only value that affects our predicted price for tomorrow, is today's price. As our linear function is simple, ARIMA is a little overkill for forecasting purposes in this case.
+We decided that AR (Autoregression) was the better choice for our trading purposes as it provides similar results to ARIMA but trains in exponentially faster time. Moreover, as depicted in the PACF plots, the only independent variable in our regression is the price at time lag 1. Or in other words, the only value that affects our predicted price for tomorrow, is today's price. Our regression function comes out to a simple y = mx + b… ARIMA is a little overkill for forecasting purposes in this case.
 
 
 ![Random stock PACF graphs](project_name/reports/figures/RandomGraphs.png?raw=true "Random Sample PACF + Lag correlation plots")
@@ -165,12 +163,12 @@ We decided that AR (Autoregression) was the better choice for our trading purpos
 
 Slope Trend Strategy
 ---
-This is a little strategy that I made up, just for demonstration purposes. This strategy is not backtested and would likely perform fairly poorly in practice. Broadly this strategy could be classified under mean reversion as it sells when the price is up, and buys when the price is down. 
+This is a little strategy that I made up for demonstration purposes. This strategy is not backtested and would likely perform fairly poorly in practice. Broadly this strategy could be classified under mean reversion as it sells when the price is up, and buys when the price is down. 
 
 The strategy uses a time window of the three slopes of t-2 to t-1 and t-1 to t and t to t+1 
 if slope(t,t+1) > slope(t-1,t) > slope(t-2,t-1) we are in a strong uptrend
 if slope(t,t+1) < slope(t-1,t) < slope(t-2,t-1) we are in a strong downtrend
-if other then we are in a period of consolidation
+if other case then we are in a period of consolidation so we do nothing
 
 
 So if the price increased the day before, and the price increased today, and we predict the price is going to increase tomorrow, then we should sell. On the other hand, if the price went down the day before, went down today, and we predict it will go down tomorrow, we should buy.
@@ -178,7 +176,6 @@ So if the price increased the day before, and the price increased today, and we 
 Buy Sell Signals
 ---
 ![3 slope buy and sell](project_name/reports/figures/3_slope_buy_sell.png?raw=true "3 slope buy sell signals")
-
 
 
 We can see that the simple returns of this strategy were not bad during the year of 2021. Surprisingly around 50%. However, we should always look at the performance of the base instrument, and compare the strategy to a simple buy and hold. 
@@ -201,10 +198,10 @@ This strategy incorporates a dynamic Moving Average method in which we use the a
 
 Simple Predict Next Price Strategy
 ---
-The final AR based strategy is the simple price predictions strategy. The motivation is as follows, if the predicted price tomorrow is higher than today's price, then we should buy today and sell tomorrow, on the other hand if the predicted price is lower than today's price, then we should sell today, and buy tomorrow. Although this general concept makes sense, there are a couple kinks in the strategy, after all.. It is a prototype and should be treated as a fun experiment.
+The final AR based strategy is a simple price predictions strategy. The motivation is as follows: if the predicted price tomorrow is higher than today's price, then we should buy today and sell tomorrow, on the other hand if the predicted price is lower than today's price, then we should sell today, and buy tomorrow. Although this general concept makes sense, there are a couple kinks in the strategy, after all.. It is a prototype and should be treated as a fun experiment.
 
 
-Here we see that the strategy is pretty high frequency, close to daily buys and sells. The main issue with this strategy is that it does not take advantage of trending. The green and red circle represent attempted buy and sells. Where in the case of an attempted buy, we had no cash left and in the case of an attempted sell, we had no holdings of the stock left.
+Here we see that the strategy is pretty high frequency, close to daily buys and sells. The main issue with this strategy is that it does not take advantage of trending. The green and red circle represent attempted buy and sells. Where, in the case of an attempted buy, we had no cash left and in the case of an attempted sell, we had no holdings of the stock left.
 
 
 Buy Sell Signals
@@ -219,4 +216,5 @@ Equity Curve
 ![simple_predict_equity](project_name/reports/figures/simple_predict_equity.png?raw=true "simple_predict_equity")
 
 
-An investigation of the equity curve proves to be interesting. We can see that it appears to be stationary eventually stablizing at the mean return of ~2400 slightly worse than the buy and hold approach. 
+An investigation of the equity curve proves to be interesting. We can see that it appears to be stationary, eventually stabilizing at the mean return of ~2400, slightly worse than the buy and hold approach.
+
