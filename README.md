@@ -143,6 +143,13 @@ This also means that our AR model can only reasonably predict one day into the f
 
 From this wacky graph you can see that between the first forecasted value, and the last known value, there is a significant difference. However, for the next 1+n values you can see that the AR model just persists the previous value, essentially giving us a straight line.  
 
+![1 day predict graph](project_name/reports/figures/one_day_forcast.png?raw=true "1 day forcast graph")
+
+In the case that this first graph was too confusing, I produced a second comparison. Looking at these two graphs was actually how I realized that something weird was going on. You can see that if we increase the " consecutive days to forecast value" to 5 or 6, we start to see these drawn out portions of straight lines. This means that our model is acting more like a persistence model (just repeating the previous value) when we ask it to predict more than 1 day into the future. This is due to the fact the stock data is very close to random walk. 
+
+
+![6 day predict graph](relative/path/to/img.jpg?raw=true "6 day forcast graph")
+
 Therefore, we deduced that only the prediction that has weighting is the immediate forecast (the first prediction). Of course this means we can only see one day ahead into the future, and must build our trading strategies with that in mind. 
  
 
