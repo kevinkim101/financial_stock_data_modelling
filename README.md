@@ -140,7 +140,7 @@ Well if it really were that simple I would not be sitting here and writing this.
 This also means that our AR model can only reasonably predict one day into the future. 
 
 
-[Insert weird graph]
+![wacky line graph](project_name/reports/figures/wacky_line_graph.png?raw=true "1 day + 1 + n day prediction line graph")
 
 
 From this wacky graph you can see that between the first forecasted value, and the last known value, there is a significant difference. However, for the next 1+n values you can see that the AR model just persists the previous value, essentially giving us a straight line.  
@@ -150,7 +150,7 @@ From this wacky graph you can see that between the first forecasted value, and t
 In the case that this first graph was too confusing, I produced a second comparison. Looking at these two graphs was actually how I realized that something weird was going on. You can see that if we increase the " consecutive days to forecast value" to 5 or 6, we start to see these drawn out portions of straight lines. This means that our model is acting more like a persistence model (just repeating the previous value) when we ask it to predict more than 1 day into the future. This is due to the fact the stock data is very close to random walk. 
 
 
-![6 day predict graph](relative/path/to/img.jpg?raw=true "6 day forcast graph")
+![6 day predict graph](project_name/reports/figures/six_day_forcast.png?raw=true"6 day forcast graph")
 
 Therefore, we deduced that only the prediction that has weighting is the immediate forecast (the first prediction). Of course this means we can only see one day ahead into the future, and must build our trading strategies with that in mind. 
  
@@ -160,7 +160,7 @@ Why Autoregression
 We decided that AR (Autoregression) was the better choice for our trading purposes as it provides similar results to ARIMA but trains in exponentially faster time. Moreover, as depicted in the PACF plots only the only independent variable in the price at time lag 1. Or in other words, the only value that affects our predicted price for tomorrow, is today's price. As our linear function is simple, ARIMA is a little overkill for forecasting purposes in this case.
 
 
-[Insert images of the random test results]
+![Random stock PACF graphs](project_name/reports/figures/RandomGraphs.png?raw=true"6 day forcast graph")
 
 
 Slope Trend Strategy
