@@ -217,3 +217,6 @@ You can see that we sell our stocks as soon as an uptrend is starting to form, o
 Equity Curve
 ---
 ![simple_predict_equity](project_name/reports/figures/simple_predict_equity.png?raw=true "simple_predict_equity")
+
+
+An investigation of the equity curve proves to be interesting. We can see that it appears to be stationary eventually stablizing at the mean return of ~2400 slightly worse than the buy and hold approach. 
