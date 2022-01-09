@@ -176,14 +176,14 @@ if other then we are in a period of consolidation
 So if the price increased the day before, and the price increased today, and we predict the price is going to increase tomorrow, then we should sell. On the other hand, if the price went down the day before, went down today, and we predict it will go down tomorrow, we should buy.
 
 
-[Analysis Images]
+![3 slope buy and sell](project_name/reports/figures/3_slope_by_sell.png?raw=true "3 slope buy sell signals")
 
 
 
 We can see that the simple returns of this strategy were not bad during the year of 2021. Surprisingly around 50%. However, we should always look at the performance of the base instrument, and compare the strategy to a simple buy and hold. 
 
 
-[Insert equity chart]
+![3 slope equity curve](project_name/reports/figures/3_slope_equity.png?raw=true "3 slope buy sell signals")
 
 
 As you can see the 3 slope windows actually does outperform the buy and hold strategy without factoring transaction costs. 
