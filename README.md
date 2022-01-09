@@ -176,19 +176,20 @@ if other then we are in a period of consolidation
 So if the price increased the day before, and the price increased today, and we predict the price is going to increase tomorrow, then we should sell. On the other hand, if the price went down the day before, went down today, and we predict it will go down tomorrow, we should buy.
 
 
-![3 slope buy and sell](project_name/reports/figures/3_slope_by_sell.png?raw=true "3 slope buy sell signals")
+![3 slope buy and sell](project_name/reports/figures/3_slope_buy_sell.png?raw=true "3 slope buy sell signals")
 
 
 
 We can see that the simple returns of this strategy were not bad during the year of 2021. Surprisingly around 50%. However, we should always look at the performance of the base instrument, and compare the strategy to a simple buy and hold. 
 
 
-![3 slope equity curve](project_name/reports/figures/3_slope_equity.png?raw=true "3 slope buy sell signals")
+![3 slope equity curve](project_name/reports/figures/3_slope_equity.png?raw=true "3 slope equity curve")
 
 
 As you can see the 3 slope windows actually does outperform the buy and hold strategy without factoring transaction costs. 
 
 Forecasted Moving Average Strategy
+---
 This strategy incorporates a dynamic Moving Average method in which we use the average value for a 19-day period to produce a 20-day Simple Moving Average (SMA). We do the same with a 9-day period to produce a 10-day SMA. Then, we implement the Golden Cross Rule once again and see if the 10-day SMA is above the 20-day SMA - which shows a buy signal. The opposite shows a sell signal. 
 
 [Analysis Images]
@@ -201,17 +202,15 @@ Simple Predict Next Price Strategy
 The final AR based strategy is the simple price predictions strategy. The motivation is as follows, if the predicted price tomorrow is higher than today's price, then we should buy today and sell tomorrow, on the other hand if the predicted price is lower than today's price, then we should sell today, and buy tomorrow. Although this general concept makes sense, there are a couple kinks in the strategy, after all.. It is a prototype and should be treated as a fun experiment.
 
 
-
-
-
-
-
 Here we see that the strategy is pretty high frequency, close to daily buys and sells. The main issue with this strategy is that it does not take advantage of trending. The green and red circle represent attempted buy and sells. Where in the case of an attempted buy, we had no cash left and in the case of an attempted sell, we had no holdings of the stock left.
 
 
 
-[Image of buys and sells here]
+![simple_predict](project_name/reports/figures/simple_predict_buy_sell.png?raw=true "simple_predict")
 
 
 You can see that we sell our stocks as soon as an uptrend is starting to form, or at least at the very beginning of the uptrend and thus lose out on a lot of profits. A good first change would be to introduce a longer holding period, and a lower sell percentage. So we can take advantage of the trends better. 
 
+
+
+![simple_predict_equity](project_name/reports/figures/simple_predict_equity.png?raw=true "simple_predict_equity")
