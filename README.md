@@ -191,8 +191,12 @@ Forecasted Moving Average Strategy
 ---
 This strategy incorporates a dynamic Moving Average method in which we use the average value for a 19-day period to produce a 20-day Simple Moving Average (SMA). We do the same with a 9-day period to produce a 10-day SMA. Then, we implement the Golden Cross Rule once again and see if the 10-day SMA is above the 20-day SMA - which shows a buy signal. The opposite shows a sell signal. 
 
+Buy Sell Signals
+---
 ![SMA Buy&Sell](project_name/reports/figures/SMA_Buy_Sell.png?raw=true "SMA Buy and Sell Signals")
 
+Equity Curve
+---
 ![SMA Equity](project_name/reports/figures/SMA_equity.png?raw=true "SMA Equity")
 
 
