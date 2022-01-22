@@ -73,7 +73,7 @@ Requirements
 - Install pip if not already automatically installed
   1. Download the [pip file](https://bootstrap.pypa.io/get-pip.py) and store it in same directory as Python installation
   2. cd to the folder and run ```$ python3 get-pip.py```
-- Install Pandas and Matplotlib using pip install
+- Install Numpy, Pandas and Matplotlib using pip install
 
 
 How to use
@@ -96,9 +96,6 @@ Autoregression
 Autoregression is just a fancy term for a linear regression which uses the same variable at different time positions as the independent and dependent variable. An example would be as follows: 
 
 The price of a stock at time t depends on its price at t-1 and t-2. Notice that it's the same variable (stock price) at different times acting as both the dependent and independent variable.
-```math
-Y_t = \delta + \phi_1Y_{t-1} + \phi_2Y_{t-2}... + \phi_pY_{t-p} + A
-```
 
 <img src="https://render.githubusercontent.com/render/math?math=Y_t = \delta %2B \phi_1Y_{t-1} %2B \phi_2Y_{t-2}... %2B \phi_pY_{t-p} %2B A">
 
@@ -115,11 +112,14 @@ ARIMA stands for Autoregressive Integrated Moving Average which ultimately integ
 # Rolling Average Buy & Sell Signals
 This trading strategy incorporates the Golden Cross Rule which ultimately selects two Simple Moving Averages (MA) or Rolling Averages (RA) of different time frames and identifies bullish or bearish trends. In our case, we selected a 10-day RA and a 20-day RA. If the 10-day RA crosses above the 20-day RA, it indicates an upward trend - thus a buy singla. If the 10-day RA crosses below the 20-day RA, it indicates a downward trend - thus a sell signal. Then, in order to find the efficiency/accuracy of each model, we identified buy/sell signals of AAPL stocks based on the forecasted data from each model.
 
-AR [insert buy/sell signal graph]
+AR
+![Roll_AR](project_name/reports/figures/Roll_AR.png?raw=true "Rolling Avg. with AR")
 
-MA [insert buy/sell signal graph]
+ARIMA
+![Roll_ARIMA](project_name/reports/figures/Roll_ARIMA.png?raw=true "Rolling Avg. with ARIMA")
 
-ARIMA [insert buy/sell signal graph]
+MA
+![Roll_MA](project_name/reports/figures/Roll_MA.png?raw=true "Rolling Avg. with MA")
 
 In our analysis, we trained the data from 1984-09-07 to 2021-01-04 and forecasted data from 2021-01-04 to 2021-12-22. Assuming an initial capital of $2000 and assuming we transact 1 stock at each buy/sell signal, we found the net profit after each transaction and calculated the equity (cash capital and value of held stock) on 2021-12-22. From this simple analysis, the net equity on 2021-12-22 based on the forecasted values from all 3 models are as follows:
 
@@ -191,9 +191,9 @@ Forecasted Moving Average Strategy
 ---
 This strategy incorporates a dynamic Moving Average method in which we use the average value for a 19-day period to produce a 20-day Simple Moving Average (SMA). We do the same with a 9-day period to produce a 10-day SMA. Then, we implement the Golden Cross Rule once again and see if the 10-day SMA is above the 20-day SMA - which shows a buy signal. The opposite shows a sell signal. 
 
-[Analysis Images]
+![SMA Buy&Sell](project_name/reports/figures/SMA_Buy_Sell.png?raw=true "SMA Buy and Sell Signals")
 
-[Insert equity chart]
+![SMA Equity](project_name/reports/figures/SMA_equity.png?raw=true "SMA Equity")
 
 
 Simple Predict Next Price Strategy
