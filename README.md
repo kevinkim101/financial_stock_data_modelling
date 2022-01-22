@@ -197,7 +197,7 @@ Buy Sell Signals
 
 Equity Curve
 ---
-![SMA Equity](project_name/reports/figures/SMA_equity.png?raw=true "SMA Equity")
+![SMA Equity](project_name/reports/figures/SMA_equity_new.png?raw=true "SMA Equity")
 
 
 Simple Predict Next Price Strategy
